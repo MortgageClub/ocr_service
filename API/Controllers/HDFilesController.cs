@@ -14,10 +14,10 @@ using Upload_File_To_ASPNET_Web_API_Models;
 
 namespace Upload_File_To_ASPNET_Web_API.Controllers
 {
-	public class HDFilesController : ApiController
+	public class UploadController : ApiController
 	{
-		private ILog log = log4net.LogManager.GetLogger(typeof(HDFilesController));
-		private const string UploadFolder = "uploads";
+		private ILog log = log4net.LogManager.GetLogger(typeof(UploadController));
+		private const string UploadFolder = "import";
 
 		public HttpResponseMessage Get(string fileName)
 		{

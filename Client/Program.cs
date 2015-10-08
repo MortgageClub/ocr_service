@@ -21,7 +21,7 @@ namespace Upload_File_To_ASPNET_Web_API_Client
 
 		private static async void UploadFiles()
 		{
-			Uri server = new Uri("http://localhost:4260/api/hdfiles");
+			Uri server = new Uri("http://localhost:4260/api/upload");
 			HttpClient httpClient = new HttpClient();
 
 			StringContent stringContent = new StringContent("Broken Sword: The Shadow of the Templars (also known as Circle of Blood in the United States)[1] is a 1996 point-and-click adventure game developed by Revolution Software. The player assumes the role of George Stobbart, an American tourist in Paris, as he attempts to unravel a conspiracy. The game takes place in both real and fictional locations in Europe and the Middle East.", Encoding.UTF8, "text/plain");

@@ -33,7 +33,7 @@ function drop(evt) {
 
             $.ajax({
                 type: "POST",
-                url: root + "api/hdfiles",
+                url: root + "api/upload",
                 contentType: false,
                 processData: false,
                 data: data,

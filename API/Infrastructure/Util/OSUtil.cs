@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Upload_File_To_ASPNET_Web_API.Infrastructure.Util
+namespace API.Infrastructure.Util
 {
 	public class OSUtil
 	{

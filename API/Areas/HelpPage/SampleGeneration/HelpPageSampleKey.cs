@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.Http.Headers;
 
-namespace Upload_File_To_ASPNET_Web_API.Areas.HelpPage
+namespace API.Areas.HelpPage
 {
     /// <summary>
     /// This is used to identify the place where the sample should be applied.

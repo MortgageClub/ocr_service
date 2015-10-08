@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 
-namespace Upload_File_To_ASPNET_Web_API.Areas.HelpPage
+namespace API.Areas.HelpPage
 {
     /// <summary>
     /// Use this class to customize the Help Page.

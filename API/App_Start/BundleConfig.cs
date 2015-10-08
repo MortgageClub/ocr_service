@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Upload_File_To_ASPNET_Web_API
+namespace API
 {
 	public class BundleConfig
 	{

@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace Upload_File_To_ASPNET_Web_API.Areas.HelpPage
+namespace API.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

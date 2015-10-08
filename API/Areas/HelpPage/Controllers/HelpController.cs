@@ -1,9 +1,9 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using Upload_File_To_ASPNET_Web_API.Areas.HelpPage.Models;
+using API.Areas.HelpPage.Models;
 
-namespace Upload_File_To_ASPNET_Web_API.Areas.HelpPage.Controllers
+namespace API.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Upload_File_To_ASPNET_Web_API
+namespace API
 {
 	public class RouteConfig
 	{

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Upload_File_To_ASPNET_Web_API.Controllers
+namespace API.Controllers
 {
 	public class FormUploadController : Controller
 	{

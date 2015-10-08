@@ -9,10 +9,10 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Http;
-using Upload_File_To_ASPNET_Web_API.Infrastructure;
-using Upload_File_To_ASPNET_Web_API_Models;
+using API.Infrastructure;
+using Models;
 
-namespace Upload_File_To_ASPNET_Web_API.Controllers
+namespace API.Controllers
 {
 	public class UploadController : ApiController
 	{
@@ -43,7 +43,7 @@ namespace Upload_File_To_ASPNET_Web_API.Controllers
 			return result;
 		}
 
-		public Task<IQueryable<HDFile>> Post()
+		public Task<IQueryable<UploadFile>> Post()
 		{
 			try
 			{
@@ -53,7 +53,7 @@ namespace Upload_File_To_ASPNET_Web_API.Controllers
 				if (Request.Content.IsMimeMultipartContent())
 				{
 					var streamProvider = new WithExtensionMultipartFormDataStreamProvider(uploadFolderPath);
-					var task = Request.Content.ReadAsMultipartAsync(streamProvider).ContinueWith<IQueryable<HDFile>>(t =>
+					var task = Request.Content.ReadAsMultipartAsync(streamProvider).ContinueWith<IQueryable<UploadFile>>(t =>
 					{
 						if (t.IsFaulted || t.IsCanceled)
 						{
@@ -63,7 +63,7 @@ namespace Upload_File_To_ASPNET_Web_API.Controllers
 						var fileInfo = streamProvider.FileData.Select(i =>
 						{
 							var info = new FileInfo(i.LocalFileName);
-							return new HDFile(info.Name, Request.RequestUri.AbsoluteUri + "?filename=" + info.Name, (info.Length / 1024).ToString());
+							return new UploadFile(info.Name, Request.RequestUri.AbsoluteUri + "?filename=" + info.Name, (info.Length / 1024).ToString());
 						});
 						return fileInfo.AsQueryable();
 					});

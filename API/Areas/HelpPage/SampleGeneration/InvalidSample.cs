@@ -1,6 +1,6 @@
 using System;
 
-namespace Upload_File_To_ASPNET_Web_API.Areas.HelpPage
+namespace API.Areas.HelpPage
 {
     /// <summary>
     /// This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.

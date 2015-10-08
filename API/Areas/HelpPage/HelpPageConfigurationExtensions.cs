@@ -7,9 +7,9 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Upload_File_To_ASPNET_Web_API.Areas.HelpPage.Models;
+using API.Areas.HelpPage.Models;
 
-namespace Upload_File_To_ASPNET_Web_API.Areas.HelpPage
+namespace API.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

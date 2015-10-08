@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace Upload_File_To_ASPNET_Web_API.Controllers
+namespace API.Controllers
 {
 	public class ValuesController : ApiController
 	{

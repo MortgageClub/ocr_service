@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
-using Upload_File_To_ASPNET_Web_API.Infrastructure.Util;
+using API.Infrastructure.Util;
 
-namespace Upload_File_To_ASPNET_Web_API.Infrastructure
+namespace API.Infrastructure
 {
 	public class WithExtensionMultipartFormDataStreamProvider : MultipartFormDataStreamProvider
 	{

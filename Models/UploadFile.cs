@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Upload_File_To_ASPNET_Web_API_Models
+namespace Models
 {
-	public class HDFile
+	public class UploadFile
 	{
-		public HDFile(string name, string url, string size)
+		public UploadFile(string name, string url, string size)
 		{
 			Name = name;
 			Url = url;

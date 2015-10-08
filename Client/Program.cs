@@ -5,10 +5,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Upload_File_To_ASPNET_Web_API_Client.Infrastructure;
-using Upload_File_To_ASPNET_Web_API_Models;
+using Client.Infrastructure;
+using Models;
 
-namespace Upload_File_To_ASPNET_Web_API_Client
+namespace Client
 {
 	internal class Program
 	{
@@ -36,19 +36,19 @@ namespace Upload_File_To_ASPNET_Web_API_Client
 
 			if (responseMessage.IsSuccessStatusCode)
 			{
-				IList<HDFile> hdFiles = await responseMessage.Content.ReadAsAsync<IList<HDFile>>();
+				IList<UploadFile> uploadFiles = await responseMessage.Content.ReadAsAsync<IList<UploadFile>>();
 				if (Directory.Exists(DownloadFolder))
 					(new DirectoryInfo(DownloadFolder)).Empty();
 				else
 					Directory.CreateDirectory(DownloadFolder);
 
-				foreach (HDFile hdFile in hdFiles)
+				foreach (UploadFile uploadFile in uploadFiles)
 				{
-					responseMessage = httpClient.GetAsync(new Uri(hdFile.Url)).Result;
+					responseMessage = httpClient.GetAsync(new Uri(uploadFile.Url)).Result;
 
 					if (responseMessage.IsSuccessStatusCode)
 					{
-						using (FileStream fs = File.Create(Path.Combine(DownloadFolder, hdFile.Name)))
+						using (FileStream fs = File.Create(Path.Combine(DownloadFolder, uploadFile.Name)))
 						{
 							Stream streamFromService = await responseMessage.Content.ReadAsStreamAsync();
 							streamFromService.CopyTo(fs);

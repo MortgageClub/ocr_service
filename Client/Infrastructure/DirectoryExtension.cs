@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Upload_File_To_ASPNET_Web_API_Client.Infrastructure
+namespace Client.Infrastructure
 {
 	public static class DirectoryExtension
 	{

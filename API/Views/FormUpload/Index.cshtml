@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<header>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</header>
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Form upload</h2>
+            <p>
+                Use form to upload files directly to Web Api.
+            </p>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <div id="divFormUpload">
+            <form id="formUpload" action="@Url.Content("~/api/hdfiles")" method="post" enctype="multipart/form-data">
+                <label class="displayinline">Files</label>
+                <input name="inputFiles" type="file" multiple />
+                <input type="submit" value="Upload" />
+                <div id="divProgress" style="display: none">
+                    <div id="divPercentBar" class="classDivPercentBar"></div>
+                    <div id="divPercentText" class="classDivPercentText">0%</div>
+                    @*<img alt="" id="upload-animation" src="/Content/images/loading.gif" />*@
+                </div>
+            </form>
+        </div>
+
+        <ul data-bind="template: { name: 'fileContainer', foreach: uploads }"></ul>
+        <script type="text/html" id="fileContainer">
+            <li>
+                <span>Uploaded: <small data-bind="text: Name"></small>.</span>
+                <span>Size: <small data-bind="text: Size"></small>kB</span>
+                <span>Server path: <small><a data-bind="    attr: { href: Url }, text: Url"></a></small></span>
+            </li>
+        </script>
+    </section>
+
+    @section Scripts
+    {
+        @Scripts.Render("~/bundles/formscripts")
+    }
+</div>

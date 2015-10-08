@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<header>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</header>
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Drag and drop upload</h2>
+            <p>
+                Use jquery and HTML5 to upload files directly to Web Api.
+            </p>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <div id="uploadContainer">
+            <span>Drop your files here...</span>
+            <div id="uploadNotification" style="display: none">
+                <img alt="" id="upload-animation" src="@Url.Content("~/Content/images/loading.gif")" />
+            </div>
+        </div>
+        <ul data-bind="template: { name: 'fileContainer', foreach: uploads }">
+        </ul>
+        <script type="text/html" id="fileContainer">
+            <li>
+                <span>Uploaded: <small data-bind="text: Name"></small>.</span>
+                <span>Size: <small data-bind="text: Size"></small>kB</span>
+                <span>Server path: <small><a data-bind="    attr: { href: Url }, text: Url"></a></small></span>
+            </li>
+        </script>
+    </section>
+    @section Scripts
+    {
+        <script type="text/javascript">
+            var root = "@Url.Content("~")";
+        </script>
+        @Scripts.Render("~/bundles/draganddropscripts")
+    }
+</div>

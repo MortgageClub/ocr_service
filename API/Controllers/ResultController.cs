@@ -13,13 +13,13 @@ namespace API.Controllers
 {
     public class ResultController : ApiController
     {
-        private const string ExportFolder = "export";
+        private const string ExportFolder = "C:/_FlexiCapture_Export";
 
         public HttpResponseMessage Get(string fileName)
         {
             HttpResponseMessage result = null;
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(HostingEnvironment.MapPath("~/App_Data/" + ExportFolder));
+            DirectoryInfo directoryInfo = new DirectoryInfo(ExportFolder);
             FileInfo foundFileInfo = directoryInfo.GetFiles().Where(x => x.Name == fileName).FirstOrDefault();
             if (foundFileInfo != null)
             {

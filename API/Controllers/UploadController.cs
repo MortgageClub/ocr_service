@@ -19,8 +19,8 @@ namespace API.Controllers
 	{
 		private ILog log = log4net.LogManager.GetLogger(typeof(UploadController));
 		private const string ImportFolder = "C:/_FlexiCapture_Import";
-        private const string ExportFolder = "C:/_FlexiCapture_Export";
 
+        // Get image file
         public HttpResponseMessage Get(string fileName)
 		{
 			HttpResponseMessage result = null;
@@ -45,36 +45,34 @@ namespace API.Controllers
 			return result;
 		}
 
-        public HttpResponseMessage Post(string url)
+        // Download file
+        public HttpResponseMessage Get(string fileName, string url)
         {
             HttpResponseMessage result = null;
 
+            //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            //request.AllowAutoRedirect = false;
+            //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            //string directUrl = response.Headers["Location"];
+            //response.Close();
+
             // Create an instance of WebClient
             WebClient client = new WebClient();
+
             // Hookup DownloadFileCompleted Event
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
 
             // Start the download and copy the file to 
-            DirectoryInfo directoryInfo = new DirectoryInfo(ImportFolder);
-            client.DownloadFileAsync(new Uri(url), directoryInfo + "/test.jpg");
-
-            
-            FileInfo foundFileInfo = directoryInfo.GetFiles().Where(x => x.Name == url).FirstOrDefault();
-            if (foundFileInfo != null)
+            DirectoryInfo directoryInfo = new DirectoryInfo(ImportFolder + "/" + fileName);
+            try
             {
-                FileStream fs = new FileStream(foundFileInfo.FullName, FileMode.Open);
-
+                client.DownloadFileAsync(new Uri(url), directoryInfo.ToString());
                 result = new HttpResponseMessage(HttpStatusCode.OK);
-                result.Content = new StreamContent(fs);
-                result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                result.Content.Headers.ContentDisposition.FileName = foundFileInfo.Name;
             }
-            else
+            catch
             {
                 result = new HttpResponseMessage(HttpStatusCode.NotFound);
             }
-
             return result;
         }
 
@@ -125,5 +123,6 @@ namespace API.Controllers
 		{
 			return new string[] { "value1", "value2" };
 		}
-	}
+
+    }
 }

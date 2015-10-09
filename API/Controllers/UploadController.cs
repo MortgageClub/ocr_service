@@ -11,19 +11,21 @@ using System.Web.Hosting;
 using System.Web.Http;
 using API.Infrastructure;
 using Models;
+using System.ComponentModel;
 
 namespace API.Controllers
 {
 	public class UploadController : ApiController
 	{
 		private ILog log = log4net.LogManager.GetLogger(typeof(UploadController));
-		private const string UploadFolder = "import";
+		private const string ImportFolder = "C:/_FlexiCapture_Import";
+        private const string ExportFolder = "C:/_FlexiCapture_Export";
 
-		public HttpResponseMessage Get(string fileName)
+        public HttpResponseMessage Get(string fileName)
 		{
 			HttpResponseMessage result = null;
 
-			DirectoryInfo directoryInfo = new DirectoryInfo(HostingEnvironment.MapPath("~/App_Data/" + UploadFolder));
+			DirectoryInfo directoryInfo = new DirectoryInfo(ImportFolder);
 			FileInfo foundFileInfo = directoryInfo.GetFiles().Where(x => x.Name == fileName).FirstOrDefault();
 			if (foundFileInfo != null)
 			{
@@ -43,16 +45,53 @@ namespace API.Controllers
 			return result;
 		}
 
-		public Task<IQueryable<UploadFile>> Post()
+        public HttpResponseMessage Post(string url)
+        {
+            HttpResponseMessage result = null;
+
+            // Create an instance of WebClient
+            WebClient client = new WebClient();
+            // Hookup DownloadFileCompleted Event
+            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+
+            // Start the download and copy the file to 
+            DirectoryInfo directoryInfo = new DirectoryInfo(ImportFolder);
+            client.DownloadFileAsync(new Uri(url), directoryInfo + "/test.jpg");
+
+            
+            FileInfo foundFileInfo = directoryInfo.GetFiles().Where(x => x.Name == url).FirstOrDefault();
+            if (foundFileInfo != null)
+            {
+                FileStream fs = new FileStream(foundFileInfo.FullName, FileMode.Open);
+
+                result = new HttpResponseMessage(HttpStatusCode.OK);
+                result.Content = new StreamContent(fs);
+                result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                result.Content.Headers.ContentDisposition.FileName = foundFileInfo.Name;
+            }
+            else
+            {
+                result = new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+
+            return result;
+        }
+
+        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            log.Debug("File downloaded");
+        }
+
+        public Task<IQueryable<UploadFile>> Post()
 		{
 			try
 			{
-				var uploadFolderPath = HostingEnvironment.MapPath("~/App_Data/" + UploadFolder);
-				log.Debug(uploadFolderPath);
+				log.Debug(ImportFolder);
 
 				if (Request.Content.IsMimeMultipartContent())
 				{
-					var streamProvider = new WithExtensionMultipartFormDataStreamProvider(uploadFolderPath);
+					var streamProvider = new WithExtensionMultipartFormDataStreamProvider(ImportFolder);
 					var task = Request.Content.ReadAsMultipartAsync(streamProvider).ContinueWith<IQueryable<UploadFile>>(t =>
 					{
 						if (t.IsFaulted || t.IsCanceled)

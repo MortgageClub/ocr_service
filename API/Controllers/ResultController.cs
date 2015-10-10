@@ -18,14 +18,13 @@ namespace API.Controllers
         public HttpResponseMessage Get(string fileName)
         {
             HttpResponseMessage result = null;
+            result = new HttpResponseMessage(HttpStatusCode.OK);
 
             DirectoryInfo directoryInfo = new DirectoryInfo(ExportFolder);
             FileInfo foundFileInfo = directoryInfo.GetFiles().Where(x => x.Name == fileName).FirstOrDefault();
             if (foundFileInfo != null)
             {
                 FileStream fs = new FileStream(foundFileInfo.FullName, FileMode.Open);
-
-                result = new HttpResponseMessage(HttpStatusCode.OK);
                 result.Content = new StreamContent(fs);
                 result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/xml");
                 result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
@@ -33,7 +32,8 @@ namespace API.Controllers
             }
             else
             {
-                result = new HttpResponseMessage(HttpStatusCode.NotFound);
+                result.Content = new StringContent("{\"message\": \"file not found\"}");
+                result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             }
 
             return result;

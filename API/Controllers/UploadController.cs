@@ -24,23 +24,23 @@ namespace API.Controllers
         public HttpResponseMessage Get(string fileName)
 		{
 			HttpResponseMessage result = null;
+            result = new HttpResponseMessage(HttpStatusCode.OK);
 
-			DirectoryInfo directoryInfo = new DirectoryInfo(ImportFolder);
+            DirectoryInfo directoryInfo = new DirectoryInfo(ImportFolder);
 			FileInfo foundFileInfo = directoryInfo.GetFiles().Where(x => x.Name == fileName).FirstOrDefault();
 			if (foundFileInfo != null)
 			{
 				FileStream fs = new FileStream(foundFileInfo.FullName, FileMode.Open);
-
-				result = new HttpResponseMessage(HttpStatusCode.OK);
 				result.Content = new StreamContent(fs);
 				result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
 				result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
 				result.Content.Headers.ContentDisposition.FileName = foundFileInfo.Name;
 			}
 			else
-			{
-				result = new HttpResponseMessage(HttpStatusCode.NotFound);
-			}
+            {
+                result.Content = new StringContent("{\"message\": \"error\"}");
+                result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            }
 
 			return result;
 		}
@@ -49,6 +49,7 @@ namespace API.Controllers
         public HttpResponseMessage Get(string fileName, string url)
         {
             HttpResponseMessage result = null;
+            result = new HttpResponseMessage(HttpStatusCode.OK);
 
             //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             //request.AllowAutoRedirect = false;
@@ -67,11 +68,13 @@ namespace API.Controllers
             try
             {
                 client.DownloadFileAsync(new Uri(url), directoryInfo.ToString());
-                result = new HttpResponseMessage(HttpStatusCode.OK);
+                result.Content = new StringContent("{\"message\": \"downloading\"}");
+                result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             }
             catch
-            {
-                result = new HttpResponseMessage(HttpStatusCode.NotFound);
+            { 
+                result.Content = new StringContent("{\"message\": \"error\"}");
+                result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             }
             return result;
         }
